@@ -43,8 +43,9 @@ export default function Profiles({ changeProfilefromPreferences }: Props): JSX.E
 						ListProfiles.map((profile, index) => (
 							<li className="relative" key={index}>
 								<input
-									type="checkbox"
-									name={profile}
+									type="radio"
+									value={profile}
+									name="profile"
 									id={profile}
 									className={`bg-[#27292D] absolute opacity-0 text-xs p-1 px-3 rounded-md peer`}
 									title={"Agregar perfil: " + profile}

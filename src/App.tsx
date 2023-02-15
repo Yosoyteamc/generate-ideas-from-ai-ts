@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import Profiles from "./components/pure/Profiles";
+import { profileResponse } from "./interfaces/Interfaces";
 
 function App() {
 	const [profile, setProfile] = useState<string>();
@@ -7,7 +8,7 @@ function App() {
 
 	const changeProfilefromPreferences = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) {
-			setProfile(e.target.name);
+			setProfile(e.target.value);
 		} else {
 			setProfile("");
 		}
@@ -27,7 +28,8 @@ function App() {
 			if (event.key === "Escape") {
 				const input = document.getElementById("input") as HTMLInputElement;
 				input.value = "";
-				setProfile("");
+				setResponse(undefined);
+				setProfile(undefined);
 			}
 		});
 	};
@@ -36,11 +38,31 @@ function App() {
 		if (profile) {
 			console.log(profile);
 			setResponse("Generando...");
+			const input = document.getElementById("input") as HTMLInputElement;
+			input.value = profile;
+			getSuggestions(profile);
 		}
 	}, [profile]);
 
+	const getSuggestions = async (profile: string) => {
+		try {
+			const response = await fetch("https://63ed433c3d9c852c3f587be7.mockapi.io/suggestions").then((res) => res.json());
+			console.log(response);
+			response.forEach((suggestion: profileResponse) => {
+				if (suggestion.name === profile) {
+					const random = Math.round(Math.random() * (suggestion.response.length - 1));
+					setTimeout(() => {
+						setResponse(suggestion.response[random]);
+					}, 5000);
+				}
+			});
+		} catch (error) {
+			throw new Error("Error al obtener las sugerencias");
+		}
+	};
+
 	return (
-		<div className="w-screen p-2 overflow-hidden min-h-screen bg-[#121416]">
+		<section className="w-screen p-2 h-screen bg-[#121416]">
 			<div className="flex items-center justify-center w-full h-full flex-col">
 				<div className="p-3 text-center">
 					<h1 className="text-gray-300/80 text-4xl font-medium mb-6">
@@ -48,10 +70,10 @@ function App() {
 						<span className="text-white"> miles de sugerencias </span>
 						de contenido
 					</h1>
-					<p className="text-gray-300/80">Todas generadas por un algoritmo de inteligencia artificial.</p>
+					<p className="text-gray-300/80">Todas creadas por un algoritmo de inteligencia artificial.</p>
 				</div>
 				<form onSubmit={changeProfilefromInput} className="mt-6 bg-[#1d1f20] p-4 rounded-md w-[90%] lg:w-[50%]">
-					<div className="bg-[#27292D] text-sm outline-none border border-gray-600/80 resize-none text-gray-300/80 p-3 rounded-md w-full">
+					<div className="bg-[#27292D] text-sm outline-none border border-gray-600/80 resize-none text-gray-300/80 p-3 rounded-md w-full min-h-[100px]">
 						<input
 							onChange={resetInput}
 							className="text-sm outline-none bg-transparent resize-none text-gray-300/80 rounded-md w-full"
@@ -60,8 +82,8 @@ function App() {
 							placeholder="Streamer de Just Chatting, Instagramer de moda y estilo..."
 						></input>
 						<p
-							className={`before:content-[''] before:w-[2px] before:h-full before:bg-gray-600 before:absolute before:-left-5 relative left-5 mr-7 my-4 ${
-								!response ? "hidden" : "block"
+							className={`before:content-[''] before:w-[2px] before:h-full before:bg-gray-600 before:absolute before:-left-5 relative left-5 mr-7 my-4 text-white ${
+								!response || response.length === 0 ? "" : ""
 							}`}
 						>
 							{response}
@@ -92,9 +114,10 @@ function App() {
 						</button>
 					</div>
 				</form>
+				{/* <div className="my-[50px]"></div> */}
 				<Profiles changeProfilefromPreferences={changeProfilefromPreferences}></Profiles>
 			</div>
-		</div>
+		</section>
 	);
 }
 

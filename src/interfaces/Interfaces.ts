@@ -3,3 +3,9 @@ export interface Profile {
 	name: string;
 	type: string[];
 }
+
+export interface profileResponse {
+	id: string;
+	name: string;
+	response: string[];
+}
