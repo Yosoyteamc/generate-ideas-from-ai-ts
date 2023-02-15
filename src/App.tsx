@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
-
-const ListProfiles: string[] = ["Streamer de Just Chatting", "Instagramer de moda y estilo", "Youtuber de videojuegos"];
+import Profiles from "./components/pure/Profiles";
 
 function App() {
 	const [profile, setProfile] = useState<string>();
+	const [response, setResponse] = useState<string>();
 
 	const changeProfilefromPreferences = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target.checked) {
@@ -35,6 +35,7 @@ function App() {
 	useEffect(() => {
 		if (profile) {
 			console.log(profile);
+			setResponse("Generando...");
 		}
 	}, [profile]);
 
@@ -50,13 +51,22 @@ function App() {
 					<p className="text-gray-300/80">Todas generadas por un algoritmo de inteligencia artificial.</p>
 				</div>
 				<form onSubmit={changeProfilefromInput} className="mt-6 bg-[#1d1f20] p-4 rounded-md w-[50%]">
-					<input
-						onChange={resetInput}
-						className="bg-[#27292D] text-sm outline-none border border-gray-600/80 resize-none text-gray-300/80 p-3 rounded-md w-full"
-						name="input-area"
-						id="input"
-						placeholder="Streamer, Instagramer de moda y estilo..."
-					></input>
+					<div className="bg-[#27292D] text-sm outline-none border border-gray-600/80 resize-none text-gray-300/80 p-3 rounded-md w-full">
+						<input
+							onChange={resetInput}
+							className="text-sm outline-none bg-transparent resize-none text-gray-300/80 rounded-md w-full"
+							name="input-area"
+							id="input"
+							placeholder="Streamer de Just Chatting, Instagramer de moda y estilo..."
+						></input>
+						<p
+							className={`before:content-[''] before:w-[2px] before:h-full before:bg-gray-600 before:absolute before:-left-5 relative left-5 mr-7 my-4 ${
+								!response ? "hidden" : "block"
+							}`}
+						>
+							{response}
+						</p>
+					</div>
 					<div className="flex justify-between mt-3">
 						<div className="flex gap-2">
 							<button
@@ -82,31 +92,7 @@ function App() {
 						</button>
 					</div>
 				</form>
-				<div className="text-gray-400/80 mt-10 w-[50%]">
-					<legend className="text-start text-sm">Perfiles predeterminados:</legend>
-					<div className="flex gap-2 mt-2">
-						<ul className="flex flex-wrap gap-2">
-							{ListProfiles.map((profile, index) => (
-								<li className="relative" key={index}>
-									<input
-										type="checkbox"
-										name={profile}
-										id={profile}
-										className={`bg-[#27292D] absolute opacity-0 text-xs p-1 px-3 rounded-md peer`}
-										title={"Agregar perfil: " + profile}
-										onChange={changeProfilefromPreferences}
-									></input>
-									<label
-										htmlFor={profile}
-										className="text-xs select-none text-gray-200 bg-[#27292D] border border-gray-600/80 p-1 px-3 rounded-full cursor-pointer peer-checked:bg-[#224EFE] peer-checked:border-[#224EFE]"
-									>
-										{profile}
-									</label>
-								</li>
-							))}
-						</ul>
-					</div>
-				</div>
+				<Profiles changeProfilefromPreferences={changeProfilefromPreferences}></Profiles>
 			</div>
 		</div>
 	);
