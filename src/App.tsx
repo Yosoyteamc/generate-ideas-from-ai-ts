@@ -40,7 +40,7 @@ function App() {
 	}, [profile]);
 
 	return (
-		<div className="w-screen p-2 overflow-hidden h-screen bg-[#121416]">
+		<div className="w-screen p-2 overflow-hidden min-h-screen bg-[#121416]">
 			<div className="flex items-center justify-center w-full h-full flex-col">
 				<div className="p-3 text-center">
 					<h1 className="text-gray-300/80 text-4xl font-medium mb-6">
@@ -50,7 +50,7 @@ function App() {
 					</h1>
 					<p className="text-gray-300/80">Todas generadas por un algoritmo de inteligencia artificial.</p>
 				</div>
-				<form onSubmit={changeProfilefromInput} className="mt-6 bg-[#1d1f20] p-4 rounded-md w-[50%]">
+				<form onSubmit={changeProfilefromInput} className="mt-6 bg-[#1d1f20] p-4 rounded-md w-[90%] lg:w-[50%]">
 					<div className="bg-[#27292D] text-sm outline-none border border-gray-600/80 resize-none text-gray-300/80 p-3 rounded-md w-full">
 						<input
 							onChange={resetInput}
@@ -78,7 +78,7 @@ function App() {
 							</button>
 							<button
 								type="reset"
-								className="bg-[#27292D] border border-gray-600/80 text-white text-xs p-1 px-3 rounded-md"
+								className="bg-[#27292D] border flex gap-1 items-center border-gray-600/80 text-white text-xs p-1 px-3 rounded-md"
 							>
 								Eliminar
 								<span className="text-gray-500"> ESC</span>

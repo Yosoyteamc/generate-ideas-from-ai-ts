@@ -35,10 +35,10 @@ export default function Profiles({ changeProfilefromPreferences }: Props): JSX.E
 	}, []);
 
 	return (
-		<div className="text-gray-400/80 mt-10 w-[50%]">
+		<div className="text-gray-400/80 mt-10 w-[90%] lg:w-[50%] mb-10">
 			<legend className="text-start text-sm">Perfiles predeterminados:</legend>
 			<div className="flex gap-2 mt-2">
-				<ul className="flex flex-wrap gap-2">
+				<ul className="flex flex-wrap justify-items-stretch  gap-2">
 					{ListProfiles &&
 						ListProfiles.map((profile, index) => (
 							<li className="relative" key={index}>
@@ -52,7 +52,7 @@ export default function Profiles({ changeProfilefromPreferences }: Props): JSX.E
 								></input>
 								<label
 									htmlFor={profile}
-									className="text-xs select-none text-gray-200 bg-[#27292D] border border-gray-600/80 p-1 px-3 rounded-full cursor-pointer peer-checked:bg-[#224EFE] peer-checked:border-[#224EFE]"
+									className="text-xs select-none inline-block whitespace-nowrap text-gray-200 bg-[#27292D] border border-gray-600/80 p-1 px-3 rounded-full cursor-pointer peer-checked:bg-[#224EFE] peer-checked:border-[#224EFE]"
 								>
 									{profile}
 								</label>
